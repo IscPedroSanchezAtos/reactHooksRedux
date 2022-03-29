@@ -1,25 +1,24 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
-
-function App() {
-  const submit = (e) => {
-    e.preventDefault()
-    const data = Array.from(new FormData(e.target))
-    console.log(Object.fromEntries(data))
+import { useRef } from "react"
+const App= () =>{
+  const input:any =useRef<HTMLInputElement>(null)
+  const file:any =useRef<HTMLInputElement>(null)
+  const submit = () => {
+    console.log(input.current?.value)
+    console.log(file.current?.files)
+    const form = new FormData()
+    form.append('archivo', file.current?.files)
+    form.append('campo', input.current?.value)
+    fetch('/lala', {method: 'POST', body:form})
   }
-
-  return (
-    <form onSubmit={submit}>
+  return(
+    <div>
       <div>
-        <span>
-          lala
-        </span>
-        <input type="text" name="campo"/>
+        <span>lala</span>
+        <input type="text" name="campo" ref={input} />
+        <input type="file" ref={file} />
       </div>
-      <input type="text" name="campo-2"/>
-      <input type="submit" value="enviar" />
-    </form>
+      <input type="submit" name="enviar" onClick={submit}/>
+    </div>
   )
 }
 
